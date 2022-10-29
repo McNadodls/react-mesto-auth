@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # mesto-react
 
 ### Обзор
@@ -52,5 +51,4 @@
 
 
 **Ссылка на проект**
->>>>>>> c7baf28ad85f6f5949ab4e0648b2a5ad4030a529
 https://mcnadodls.github.io/mesto-react/
