@@ -2,7 +2,6 @@ class Api {
   constructor(baseUrl, authorization) {
     this._baseUrl = baseUrl;
     this._authorization = authorization;
-    
   }
 
   _checkResponse (res) {
@@ -124,6 +123,5 @@ class Api {
   getInitialInfo() {
     return Promise.all([this._getUserInfo(), this._getInitialCards()]);
   }
-
 }
 export default new Api('https://mesto.nomoreparties.co/v1/cohort-49', '0e0d7772-71f5-4ff2-9ff2-a4d42c8f7f70'); 

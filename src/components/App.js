@@ -10,33 +10,26 @@ import Api from "../utils/Api.js";
 import React, {useEffect, useState} from 'react';
 import {Route, Redirect, Switch, useRouteMatch } from 'react-router-dom';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
-import FormValues from "./FormValues.js";
+import FormValues from "../hooks/FormValues.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Login from './Login.js';
 import Register from './Register.js';
 import { useParams, useHistory } from 'react-router-dom'; 
 import InfoTooltip from "./popup/InfoTooltip"
-
 import Auth from "../utils/Auth.js";
 
-
-
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [loggedEmale, setLoggedEmale] = React.useState("");
-  const [stateInfoTooltip, swapStateInfoTooltip] = React.useState({open: false, status: false});
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedEmale, setLoggedEmale] = useState("");
+  const [stateInfoTooltip, swapStateInfoTooltip] = useState({open: false, status: false});
   const history = useHistory(); 
-  const { path, url } = useRouteMatch();
-  
-
-  const [stateEditProfile, swapStateEditProfile] = React.useState(false);
-  const [stateEditCard, swapStateEditCard] = React.useState(false);
-  const [stateEditAvatar, swapStateEditAvatar] = React.useState(false);
-  const [stateCardImage, swapstateCardImage] = React.useState(null);
-  
-  const [currentUser, setCurrentUser] = React.useState({});
-  
+  const [stateEditProfile, swapStateEditProfile] = useState(false);
+  const [stateEditCard, swapStateEditCard] = useState(false);
+  const [stateEditAvatar, swapStateEditAvatar] = useState(false);
+  const [stateCardImage, swapstateCardImage] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const { path, url } = useRouteMatch();
 
   useEffect(() => {
     Api.getInitialInfo().then(([user, initialCards]) => {
@@ -128,39 +121,38 @@ function App() {
   function checkToken () {
     const jwt = localStorage.getItem('jwt'); 
     if (jwt){
-      Auth.getToken(jwt).then((res) => {
-        if(res) {
+      Auth.getToken(jwt)
+      .then(res => {
           setLoggedIn(true);
           setLoggedEmale(res.data.email)
           history.push('/main');
-        }
       })
+      .catch(err => {
+        Auth.enterError(err)
+     })
     }
   }
 
-    
 	function handleSubmitRegistry(email, pass) {
-		Auth.singnup(email, pass).then((res) => {
-			if (res) {
+		Auth.singnup(email, pass)
+      .then((res) => {if (res) {
         swapStateInfoTooltip({open: true, status: true})
         history.push('/sign-in');
-      } else {
-        swapStateInfoTooltip({open: true, status: false})
-      }
-		})
+      }}) 
+      .catch(res =>{swapStateInfoTooltip({open: true, status: false}
+      )}) 
 	}
-
+	
   function handleSubmitSignIn(email, pass) {
-		Auth.signin(email, pass).then((res) => {
-      if (res) {
-			localStorage.setItem('jwt', res.token);
-			setLoggedEmale(email);
-      setLoggedIn(true);
-			history.push('/main');
-      } else {
-        swapStateInfoTooltip({open: true, status: false})
-      }
-		})
+		Auth.signin(email, pass)
+      .then((res) => {if (res) {
+			  localStorage.setItem('jwt', res.token);
+			  setLoggedEmale(email);
+        setLoggedIn(true);
+			  history.push('/main');
+      }})
+      .catch(res =>{swapStateInfoTooltip({open: true, status: false}
+      )}) 
 	}
 
   function handleSignOut() {
@@ -168,19 +160,14 @@ function App() {
 		history.push('/sign-in');
 		setLoggedIn(false);
     setLoggedEmale('')
-  
 	} 
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="body">
         <div className="page">
-
-        
         <Header loggedIn={loggedIn} loggedEmale={loggedEmale} onClose={handleSignOut}/>
-        
           <Switch>
-          
           <ProtectedRoute 
             path="/Main"
             component={Main}
@@ -194,11 +181,9 @@ function App() {
             handleCardDelete={handleCardDelete}
             loggedIn={loggedIn}
           />
-          <ProtectedRoute
-            path="/Main"
-            component={Footer}
-            loggedIn={loggedIn}
-          />
+          <Route path="/Main">
+            <Footer />
+          </Route>
           <Route exact path="/">
             {false ? <Redirect to="/Main" /> : <Redirect to="/sign-in" />}
           </Route>
@@ -208,7 +193,6 @@ function App() {
           <Route path="/sign-up">
             <Register onSubmit={handleSubmitRegistry} history={history} />
           </Route>
-          
           </Switch>
         </div>
       </div>

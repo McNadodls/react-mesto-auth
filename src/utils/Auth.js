@@ -3,6 +3,13 @@ class Auth {
     this._baseUrl = baseUrl;
   }
 
+  _checkResponse(response) {
+    if (response.ok) {
+      return response.json();
+    }
+    return Promise.reject(`Ошибка: ${response.status}`);
+  } 
+
   enterError (err) {
     Promise.reject(`Ошибка: ${err.status}`);
   }
@@ -18,8 +25,7 @@ class Auth {
         "password": password
       })
     })
-    .then((res) => { if (res.ok) {return res.json()}})
-            .then(res => res);
+    .then(this._checkResponse)
   }
 
   signin(email, password) {
@@ -33,8 +39,7 @@ class Auth {
         "password": password
       })
     })
-    .then((res) => { if (res.ok) {return res.json()}})
-            .then(res => res);
+    .then(this._checkResponse)
   }
 
   getToken (jwt) {
@@ -45,12 +50,7 @@ class Auth {
             "Authorization" : `Bearer ${jwt}`
         }
     })
-        .then((res) => { if (res.ok) {return res.json()}})
-        .then(res=>res);
+        .then(this._checkResponse)
   }
-
-
-
-
 }
 export default new Auth('https://auth.nomoreparties.co'); 
