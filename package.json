@@ -1,43 +1,39 @@
 {
-  "name": "express-mesto-gha",
-  "version": "1.0.0",
-  "description": "[![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)\r # Проект Mesto фронтенд + бэкенд",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/McNadodls/express-mesto-gha.git"
-  },
-  "author": "Dmitry Mansurov",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/McNadodls/express-mesto-gha/issues"
-  },
-  "homepage": "https://github.com/McNadodls/express-mesto-gha#readme",
-  "keywords": [],
+  "name": "mesto-react",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "celebrate": "^15.0.1",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.0.3",
-    "escape-html": "^1.0.3",
-    "express": "^4.18.2",
-    "express-winston": "^4.2.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.7.2",
-    "winston": "^3.8.2"
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^5.2.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
   },
-  "devDependencies": {
-    "eslint": "^8.27.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "nodemon": "^2.0.20"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
